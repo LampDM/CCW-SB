@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ccw.demo.interfaceService.ItaskService;
-import com.ccw.demo.interfaceService.IuserService;
 import com.ccw.demo.model.Task;
 
 @Controller
@@ -22,8 +21,8 @@ public class Regler {
 
 	@Autowired
 	private ItaskService service;
-	
-	@GetMapping("/list")
+
+	@GetMapping("/")
 	public String list(Model model) {
 		List<Task> tasks = service.list();
 		model.addAttribute("tasks", tasks);
@@ -39,7 +38,7 @@ public class Regler {
 	@PostMapping("/save")
 	public String save(@Valid Task t, Model model) {
 		service.save(t);
-		return "redirect:/list";
+		return "redirect:/";
 	}
 
 	@GetMapping("/edit/{id}")
@@ -49,10 +48,16 @@ public class Regler {
 		return "form";
 
 	}
-	
+
 	@GetMapping("/delete/{id}")
 	public String delete(Model model, @PathVariable int id) {
 		service.delete(id);
-		return "redirect:/list";
+		return "redirect:/";
 	}
+
+	@GetMapping("/info")
+	public String info() {
+		return "info";
+	}
+	
 }

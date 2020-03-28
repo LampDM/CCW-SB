@@ -18,7 +18,7 @@ function deletion (id){
 		      icon: "success",
 		    }).then((ok)=>{
 		    	if(ok){
-		    		location.href="/list";
+		    		location.href="/";
 		    	}
 		    });
 		  } else {

@@ -15,8 +15,8 @@
 		<div class="card border-info">
 			<div class="card-header" bg-info text-white>
 				<a class="btn btn-primary" th:href="@{/new}">New task</a> <a
-					class="btn btn-primary" href="login.html">Logout</a> <a
-					href="info.html" style="float: right">Code Checker Web 1.02
+					class="btn btn-primary" th:href="@{/logout}">Logout</a> <a
+					th:href="@{/info}" style="float: right">Code Checker Web 1.02
 					BETA</a>
 			</div>
 			<div class="card-body">
@@ -35,7 +35,7 @@
 							<td th:text="${task.id}"></td>
 							<td th:text="${task.name}"></td>
 							<td th:text="${task.description}" style="max-width: 500px;"></td>
-							<td><a href="@{/solve/}+${task.id}" class="btn btn-success">Solve</a>
+							<td><a th:href="@{/solve/}+${task.id}" class="btn btn-success">Solve</a>
 								<a th:href="@{/edit/}+${task.id}" class="btn btn-warning">Edit</a>
 								<a th:onclick="deletion([[${task.id}]])" class="btn btn-danger">Delete</a>
 							</td>
