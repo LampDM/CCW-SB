@@ -20,11 +20,14 @@ import com.ccw.demo.model.Task;
 public class Regler {
 
 	@Autowired
-	private ItaskService service;
+	private ItaskService tservice;
+
+	// @Autowired
+	// private IsolutionService sservice;
 
 	@GetMapping("/")
 	public String list(Model model) {
-		List<Task> tasks = service.list();
+		List<Task> tasks = tservice.list();
 		model.addAttribute("tasks", tasks);
 		return "index";
 	}
@@ -37,21 +40,33 @@ public class Regler {
 
 	@PostMapping("/save")
 	public String save(@Valid Task t, Model model) {
-		service.save(t);
+		tservice.save(t);
 		return "redirect:/";
 	}
 
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable int id, Model model) {
-		Optional<Task> task = service.listId(id);
+		Optional<Task> task = tservice.listId(id);
 		model.addAttribute("task", task);
 		return "form";
-
 	}
+
+	@GetMapping("/solve/{id}")
+	public String solve(@PathVariable int id, Model model) {
+		Optional<Task> task = tservice.listId(id);
+		model.addAttribute("task", task);
+		return "solve";
+	}
+
+//	@PostMapping("/compile")
+//	public String save(@Valid Solution s, Model model) {
+//		tservice.save(s);
+//		return "redirect:/";
+//	}
 
 	@GetMapping("/delete/{id}")
 	public String delete(Model model, @PathVariable int id) {
-		service.delete(id);
+		tservice.delete(id);
 		return "redirect:/";
 	}
 
@@ -59,5 +74,11 @@ public class Regler {
 	public String info() {
 		return "info";
 	}
-	
+
+	//TODO custom LOGIN PAGE
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
+
 }

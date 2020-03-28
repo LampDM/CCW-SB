@@ -1,29 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <title>CodeCheckerWeb</title>
 </head>
 <body>
-	<div class="container mt-4" >
+	<div class="container mt-4">
 		<div class="card border-info">
-			<div class="card-header" >
-				<h4>Add a task</h4>
+			<div class="card-header">
+				<h4>Add or edit task</h4>
 			</div>
 			<div class="card-body">
 				<form th:action="@{/save}" th:object=${task} method="POST">
+				
 					<!-- TODO -security issue very easy to manipulate with ID field -->
-					<input th:field="*{id}" type="hidden" name="name" class="form-control" readonly>
 					
-					<label>Name</label> 
-					<input th:field="*{name}" type="text" name="name" class="form-control"> 
-						<label>Tests</label>
-					<textarea th:field="*{tests}" rows="10" cols="70" name="tests" class="form-control"></textarea>
+					<input th:field="*{id}" type="hidden" name="name"
+						class="form-control" readonly> 
+						
+						<label>Name</label> 
+						<input th:field="*{name}" type="text" name="name" class="form-control">
+						
+					<label>Tests</label>
+					
+					<textarea th:field="*{tests}" rows="10" cols="70" name="tests"
+						class="form-control"></textarea>
+						
 					<label>Description</label>
 					<textarea th:field="*{description}" rows="5" cols="70"
 						name="description" class="form-control"></textarea>
-					<input type="submit" value="Add" class="btn btn-success"> 
+					<input type="submit" value="Submit" class="btn btn-success">
 					<a href="/">Back</a>
+					
 				</form>
 			</div>
 		</div>
