@@ -92,7 +92,12 @@ public class Regler {
 	
 	@PostMapping("/register")
 	public String register2(@Valid User u) {
-		uservice.listId(u.getId());
+		if (! uservice.existsUser(u.getUsername())) {
+			uservice.save(u);
+			System.out.println("it saved!");
+			return "register";
+		}
+		System.out.println("did not save!");
 		//TODO if succesfull return OK else error
 		return "register";
 	}
