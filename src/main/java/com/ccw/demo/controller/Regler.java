@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ccw.demo.interfaceService.ItaskService;
 import com.ccw.demo.interfaceService.IuserService;
@@ -91,15 +92,12 @@ public class Regler {
 	}
 	
 	@PostMapping("/register")
-	public String register2(@Valid User u) {
+	public ModelAndView register2(@Valid User u) {
 		if (! uservice.existsUser(u.getUsername())) {
 			uservice.save(u);
-			System.out.println("it saved!");
-			return "register";
+			return new ModelAndView("redirect:" + "/login?register");
 		}
-		System.out.println("did not save!");
-		//TODO if succesfull return OK else error
-		return "register";
+		return new ModelAndView("redirect:" + "/register?error");
 	}
 	
     @GetMapping("/access-denied")

@@ -2,6 +2,7 @@ package com.ccw.demo.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.ccw.demo.interfaceService.IuserService;
@@ -14,19 +15,17 @@ public class UserService implements IuserService {
 	@Autowired
 	private IUser data;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@Override
 	public boolean existsUser(String username) {
 		return !(data.findByName(username).isEmpty());
 	}
 	
-
 	@Override
 	public int save(User u) {
-		u.setRoles("ROLE_USER");
-		
-		Short en = 1;
-		u.setEnabled(en);
-		
+		u.setPassword(passwordEncoder.encode(u.getPassword()));
 		data.save(u);
 		return 0;
 	}

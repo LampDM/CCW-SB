@@ -13,9 +13,9 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String username;
-	private short Enabled;
+	private short Enabled = 1;
 	private String Password;
-	private String Roles;
+	private String Roles = "ROLE_USER";
 	private String Scores;
 	private String solutions;
 
