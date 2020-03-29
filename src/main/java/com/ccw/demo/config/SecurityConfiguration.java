@@ -11,12 +11,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	DataSource dataSource;
+	
+	@Autowired
+    private LoggingAccessDeniedHandler accessDeniedHandler;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -32,7 +36,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		.antMatchers("/new", "/save", "/edit/*", "/delete/*").hasRole("ADMIN")			
 		.antMatchers("/","/info","/solve/*","/compile").hasAnyRole("USER", "ADMIN")		
-		.and().formLogin().loginPage("/login");
+		.and()
+		.formLogin().loginPage("/login")
+		.and()
+		.logout()
+		.invalidateHttpSession(true)
+        .clearAuthentication(true)
+        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        .logoutSuccessUrl("/login?logout")
+        .permitAll()
+		.and()
+        .exceptionHandling()
+            .accessDeniedHandler(accessDeniedHandler);
 	}
 
 	@Bean

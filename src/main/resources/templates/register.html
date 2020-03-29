@@ -1,10 +1,47 @@
-<!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<title>CodeCheckerWeb</title>
 </head>
 <body>
-lol register here pls
+	<div class="container mt-4" col-lg-4>
+		<div class="card border-info">
+			<div class="card-header" bg-info>
+				<h4>Register</h4>
+			</div>
+			<div class="card-body">
+				<form th:action="@{/register}" method="post">
+					<div th:if="${param.error}">
+						<div class="alert alert-danger">Username already exists</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="username">Username</label>: <input type="text"
+							id="username" name="username" class="form-control"
+							autofocus="autofocus" placeholder="Username">
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label>: <input type="password"
+							id="password" name="password" class="form-control"
+							placeholder="Password">
+					</div>
+					<div class="form-group">
+						<div class="row">
+						<!-- TODO styling black magic -->
+							<div class="col-sm-3 col-sm-offset-3">
+								<input type="submit" name="register-submit" id="register-submit"
+									class="form-control btn btn-info" value="Register">
+							</div>
+						</div>
+						<a th:href="@{/login}">Login</a>
+					</div>
+				</form>
+				<p>
+					<a th:href="@{/}">Back to home page</a>
+				</p>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

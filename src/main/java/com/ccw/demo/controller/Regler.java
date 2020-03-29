@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ccw.demo.interfaceService.ItaskService;
+import com.ccw.demo.interfaceService.IuserService;
 import com.ccw.demo.model.Task;
+import com.ccw.demo.model.User;
 
 @Controller
 @RequestMapping
@@ -22,6 +24,9 @@ public class Regler {
 	@Autowired
 	private ItaskService tservice;
 
+	@Autowired
+	private IuserService uservice;
+	
 	// @Autowired
 	// private IsolutionService sservice;
 
@@ -75,10 +80,26 @@ public class Regler {
 		return "info";
 	}
 
-	//TODO custom LOGIN PAGE
 	@GetMapping("/login")
 	public String login() {
 		return "login";
 	}
+	
+	@GetMapping("/register")
+	public String register1() {
+		return "register";
+	}
+	
+	@PostMapping("/register")
+	public String register2(@Valid User u) {
+		uservice.listId(u.getId());
+		//TODO if succesfull return OK else error
+		return "register";
+	}
+	
+    @GetMapping("/access-denied")
+    public String accessDenied() {
+        return "/access-denied";
+    }
 
 }
