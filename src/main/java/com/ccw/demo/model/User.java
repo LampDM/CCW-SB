@@ -9,9 +9,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "users")
 public class User {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int user_id;
 	private String username;
 	private short Enabled = 1;
 	private String Password;
@@ -20,11 +21,11 @@ public class User {
 	private String solutions;
 
 	public int getId() {
-		return id;
+		return user_id;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.user_id = id;
 	}
 
 	public String getUsername() {

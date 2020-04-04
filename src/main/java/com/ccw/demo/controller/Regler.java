@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ccw.demo.interfaceService.IsolutionService;
 import com.ccw.demo.interfaceService.ItaskService;
 import com.ccw.demo.interfaceService.IuserService;
+import com.ccw.demo.model.Solution;
 import com.ccw.demo.model.Task;
 import com.ccw.demo.model.User;
 
@@ -27,9 +29,9 @@ public class Regler {
 
 	@Autowired
 	private IuserService uservice;
-	
-	// @Autowired
-	// private IsolutionService sservice;
+
+	@Autowired
+	private IsolutionService sservice;
 
 	@GetMapping("/")
 	public String list(Model model) {
@@ -58,15 +60,34 @@ public class Regler {
 	}
 
 	@GetMapping("/solve/{id}")
-	public String solve(@PathVariable int id, Model model) {
+	public String solveGet(@PathVariable int id, Model model) {
 		Optional<Task> task = tservice.listId(id);
 		model.addAttribute("task", task);
+
+		//Get solution and add it to current context
+		model.addAttribute("solution", new Solution());
+		return "solve";
+	}
+
+	// This one should consume /compile rest TODO
+	@PostMapping("/solve")
+	public String solvePost(@Valid Solution s, Model model) {
+		//Optional<Task> task = tservice.listId(id);
+		// save solution here
+		
+		s.setTask_id(41);
+		s.setUsr_id(19);
+		sservice.save(s);
+		// commpile solution here
+		// add compiler feedback
+		//model.addAttribute("task", task);
+		//model.addAttribute("solution", s);
 		return "solve";
 	}
 
 //	@PostMapping("/compile")
 //	public String save(@Valid Solution s, Model model) {
-//		tservice.save(s);
+//		//sservice.save(s);
 //		return "redirect:/";
 //	}
 
@@ -85,24 +106,24 @@ public class Regler {
 	public String login() {
 		return "login";
 	}
-	
+
 	@GetMapping("/register")
 	public String register1() {
 		return "register";
 	}
-	
+
 	@PostMapping("/register")
 	public ModelAndView register2(@Valid User u) {
-		if (! uservice.existsUser(u.getUsername())) {
+		if (!uservice.existsUser(u.getUsername())) {
 			uservice.save(u);
 			return new ModelAndView("redirect:" + "/login?register");
 		}
 		return new ModelAndView("redirect:" + "/register?error");
 	}
-	
-    @GetMapping("/access-denied")
-    public String accessDenied() {
-        return "/access-denied";
-    }
+
+	@GetMapping("/access-denied")
+	public String accessDenied() {
+		return "/access-denied";
+	}
 
 }

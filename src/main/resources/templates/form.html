@@ -13,8 +13,6 @@
 			</div>
 			<div class="card-body">
 				<form th:action="@{/save}" th:object=${task} method="POST">
-				
-					<!-- TODO -security issue very easy to manipulate with ID field -->
 					
 					<input th:field="*{id}" type="hidden" name="name"
 						class="form-control" readonly> 

@@ -16,16 +16,18 @@
 			<div class="card-body">
 				<h5>Description</h5>
 				<p th:text="${task.get().getDescription()}"></p>
-				<!-- 				<form th:action="@{/compile}" th:object=${task} method="POST">
-
-
+				<form th:action="@{/solve}" th:object=${solution} method="POST">
 					​
-					<textarea id="codearea" rows="10" cols="70" name="user_code"
-						class="form-control">the code is here TODO solution black magic</textarea>
-					<label>compiler feedback is here lol</label> <br></br> <input
-						type="submit" value="Solve" class="btn btn-success"> <a
-						href="/">Back</a>
-				</form> -->
+					<!-- 					<textarea  id="codearea" rows="10" cols="70" name="user_code"
+						class="form-control">the code is here TODO solution black magic</textarea> -->
+					<input th:field="*{answer}" type="text" name="name"
+						class="form-control">
+						
+						 <label>compiler feedback is
+						here lol</label> <br></br> <input type="submit" value="Solve"
+						class="btn btn-success"> <a href="/">Back</a>
+
+				</form>
 			</div>
 		</div>
 	</div>

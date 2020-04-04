@@ -12,7 +12,7 @@ public class Task {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int task_id;
 	private String name;
 	private String tests;
 	private String description;
@@ -23,11 +23,11 @@ public class Task {
 	}
 
 	public int getId() {
-		return id;
+		return task_id;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.task_id = id;
 	}
 
 	public String getName() {
