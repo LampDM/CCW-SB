@@ -1,5 +1,6 @@
 package com.ccw.demo.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -60,29 +61,35 @@ public class Regler {
 	}
 
 	@GetMapping("/solve/{id}")
-	public String solveGet(@PathVariable int id, Model model) {
+	public String solveGet(@PathVariable int id, Model model, Principal principal) {
 		Optional<Task> task = tservice.listId(id);
 		model.addAttribute("task", task);
 
-		//Get solution and add it to current context
-		model.addAttribute("solution", new Solution());
+		int usr_id = uservice.getId(principal.getName());
+		// Get solution and add it to current context
+		Solution sol = new Solution();
+		sol.setTask_id(id);
+		sol.setUser_id(usr_id);
+
+		model.addAttribute("solution", sol);
+
 		return "solve";
 	}
 
 	// This one should consume /compile rest TODO
 	@PostMapping("/solve")
-	public String solvePost(@Valid Solution s, Model model) {
-		//Optional<Task> task = tservice.listId(id);
-		// save solution here
-		
-		s.setTask_id(41);
-		s.setUsr_id(19);
+	public String solvePost(Solution s, Model model, Principal principal) {
+		// TODO how to re-write in order for updating to work. updating doesnt work atm.
+
+		// This if assures that people can only submit their own tasks
+		if (s.getUser_id() != uservice.getId(principal.getName())) {
+			return "redirect:/";
+		}
 		sservice.save(s);
 		// commpile solution here
 		// add compiler feedback
-		//model.addAttribute("task", task);
-		//model.addAttribute("solution", s);
-		return "solve";
+
+		return "redirect:/";
 	}
 
 //	@PostMapping("/compile")

@@ -13,4 +13,5 @@ public interface IUser extends CrudRepository<User, Integer> {
 
 	@Query(value = "select * from users where username = ?1", nativeQuery = true)
 	List<User> findByName(String namex);
+	
 }

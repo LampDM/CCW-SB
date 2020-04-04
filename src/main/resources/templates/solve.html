@@ -16,12 +16,21 @@
 			<div class="card-body">
 				<h5>Description</h5>
 				<p th:text="${task.get().getDescription()}"></p>
+<!-- 				<p th:text="${solution.getUser_id()}"></p>
+				<p th:text="${solution.getTask_id()}"></p> -->
 				<form th:action="@{/solve}" th:object=${solution} method="POST">
-					​
-					<!-- 					<textarea  id="codearea" rows="10" cols="70" name="user_code"
-						class="form-control">the code is here TODO solution black magic</textarea> -->
-					<input th:field="*{answer}" type="text" name="name"
-						class="form-control">
+					​	
+   						<input th:field="*{user_id}" type="hidden" name="ui"
+						class="form-control" readonly >  
+						
+							<input th:field="*{task_id}" type="hidden" name="ti"
+						class="form-control" readonly >   
+						
+ 					<textarea th:field="*{answer}" rows="10" cols="70" type="text" name="ans"
+						class="form-control"></textarea>
+						
+							<input th:field="*{score}" type="text" name="scr"
+						class="form-control"> 
 						
 						 <label>compiler feedback is
 						here lol</label> <br></br> <input type="submit" value="Solve"

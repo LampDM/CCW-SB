@@ -10,4 +10,6 @@ public interface IuserService {
 
 	public int save(User u);
 
+	public int getId(String name);
+
 }

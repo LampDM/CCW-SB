@@ -37,11 +37,11 @@ public class Solution {
 		this.id = solution_id;
 	}
 
-	public int getUsr_id() {
+	public int getUser_id() {
 		return user_id;
 	}
 
-	public void setUsr_id(int usr_id) {
+	public void setUser_id(int usr_id) {
 		this.user_id = usr_id;
 	}
 

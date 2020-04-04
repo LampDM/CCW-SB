@@ -30,4 +30,11 @@ public class UserService implements IuserService {
 		return 0;
 	}
 
+	@Override
+	public int getId(String username) {
+		return data.findByName(username).get(0).getId();
+	}
+	
+	
+
 }
