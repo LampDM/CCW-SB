@@ -20,7 +20,7 @@ public class UserService implements IuserService {
 	
 	@Override
 	public boolean existsUser(String username) {
-		return !(data.findByName(username).isEmpty());
+		return !(data.findByUsername(username).isEmpty());
 	}
 	
 	@Override
@@ -31,8 +31,8 @@ public class UserService implements IuserService {
 	}
 
 	@Override
-	public int getId(String username) {
-		return data.findByName(username).get(0).getId();
+	public User getUser(String username) {
+		return data.findByUsername(username).get(0);
 	}
 	
 	

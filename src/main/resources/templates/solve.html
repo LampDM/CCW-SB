@@ -16,15 +16,13 @@
 			<div class="card-body">
 				<h5>Description</h5>
 				<p th:text="${task.get().getDescription()}"></p>
-<!-- 				<p th:text="${solution.getUser_id()}"></p>
-				<p th:text="${solution.getTask_id()}"></p> -->
-				<form th:action="@{/solve}" th:object=${solution} method="POST">
+ 				<form th:action="@{/solve}" th:object=${solution} method="POST">
 					​	
-   						<input th:field="*{user_id}" type="hidden" name="ui"
+     						<input th:field="*{usr}" type="hidden" name="ui"
 						class="form-control" readonly >  
 						
-							<input th:field="*{task_id}" type="hidden" name="ti"
-						class="form-control" readonly >   
+							<input th:field="*{tsk}" type="hidden" name="ti"
+						class="form-control" readonly >    
 						
  					<textarea th:field="*{answer}" rows="10" cols="70" type="text" name="ans"
 						class="form-control"></textarea>
@@ -36,7 +34,7 @@
 						here lol</label> <br></br> <input type="submit" value="Solve"
 						class="btn btn-success"> <a href="/">Back</a>
 
-				</form>
+				</form> 
 			</div>
 		</div>
 	</div>

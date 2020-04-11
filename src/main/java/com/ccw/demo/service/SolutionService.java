@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import com.ccw.demo.interfaceService.IsolutionService;
 import com.ccw.demo.interfaces.ISolution;
 import com.ccw.demo.model.Solution;
+import com.ccw.demo.model.Task;
+import com.ccw.demo.model.User;
 
 @Component
 public class SolutionService implements IsolutionService {
@@ -34,12 +36,25 @@ public class SolutionService implements IsolutionService {
 		}
 		return 0;
 	}
+	
+	public Solution getSolution(User usr, Task tsk) {
+		List<Solution> ls = data.findByUsrAndTsk(usr, tsk);
+		if(ls.size() == 0) {
+			return new Solution();
+		}
+		return ls.get(0);
+	}
 
 	@Override
 	public void delete(int id) {
 		data.deleteById(id);
-
+		
 	}
-
+	
+	@Override
+	public void delete(Solution solution) {
+		data.delete(solution);
+	}
+	
 }
 

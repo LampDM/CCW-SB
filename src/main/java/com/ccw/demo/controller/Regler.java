@@ -62,35 +62,39 @@ public class Regler {
 
 	@GetMapping("/solve/{id}")
 	public String solveGet(@PathVariable int id, Model model, Principal principal) {
+		
 		Optional<Task> task = tservice.listId(id);
-		model.addAttribute("task", task);
 
-		int usr_id = uservice.getId(principal.getName());
-		// Get solution and add it to current context
-		Solution sol = new Solution();
-//		sol.setTask_id(id);
-//		sol.setUser_id(usr_id);
+		Task tsk = task.get();
+		User usr = uservice.getUser(principal.getName());
 
+		Solution sol = sservice.getSolution(usr, tsk);
+		
 		model.addAttribute("solution", sol);
-
+		model.addAttribute("task", task);
+		
 		return "solve";
 	}
 
-	// This one should consume /compile rest TODO
 	@PostMapping("/solve")
 	public String solvePost(Solution s, Model model, Principal principal) {
-		// TODO how to re-write in order for updating to work. updating doesnt work atm.
-
-		// This if assures that people can only submit their own tasks
-//		if (s.getUser_id() != uservice.getId(principal.getName())) {
-//			return "redirect:/";
-//		}
+		System.out.println("AXX");
+		Task tsk = s.getTsk();
+		System.out.println("AXX");
+		Solution prev = sservice.getSolution(s.getUsr(), tsk);
+		System.out.println("AXX");
 		
-		sservice.save(s);
+		prev.setAnswer(s.getAnswer());
+		prev.setScore(s.getScore());
+		System.out.println("AXX");
+		sservice.save(prev);
+		//TODO fix nullpointer bugg
+		//TODO call the compilation REST endpoint
+		
 		// commpile solution here
 		// add compiler feedback
 
-		return "redirect:/";
+		return "redirect:/solve/"+tsk.getId();
 	}
 
 //	@PostMapping("/compile")
