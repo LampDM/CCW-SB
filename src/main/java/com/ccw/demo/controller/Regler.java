@@ -68,8 +68,8 @@ public class Regler {
 		int usr_id = uservice.getId(principal.getName());
 		// Get solution and add it to current context
 		Solution sol = new Solution();
-		sol.setTask_id(id);
-		sol.setUser_id(usr_id);
+//		sol.setTask_id(id);
+//		sol.setUser_id(usr_id);
 
 		model.addAttribute("solution", sol);
 
@@ -82,9 +82,10 @@ public class Regler {
 		// TODO how to re-write in order for updating to work. updating doesnt work atm.
 
 		// This if assures that people can only submit their own tasks
-		if (s.getUser_id() != uservice.getId(principal.getName())) {
-			return "redirect:/";
-		}
+//		if (s.getUser_id() != uservice.getId(principal.getName())) {
+//			return "redirect:/";
+//		}
+		
 		sservice.save(s);
 		// commpile solution here
 		// add compiler feedback

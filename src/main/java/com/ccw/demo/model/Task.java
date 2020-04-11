@@ -1,33 +1,50 @@
 package com.ccw.demo.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tasks")
+@Table(name = "tasksx")
 public class Task {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int task_id;
+	private int id;
 	private String name;
 	private String tests;
 	private String description;
 	private String user_code;
+
+	//One task will have many solutions
+	@OneToMany(mappedBy = "tsk")
+	private Set<Solution> sols;
+	
+	public Set<Solution> getSols() {
+		return sols;
+	}
+
+	public void setSols(Set<Solution> sols) {
+		this.sols = sols;
+	}
 
 	public Task() {
 
 	}
 
 	public int getId() {
-		return task_id;
+		return id;
 	}
 
 	public void setId(int id) {
-		this.task_id = id;
+		this.id = id;
 	}
 
 	public String getName() {

@@ -1,31 +1,47 @@
 package com.ccw.demo.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "users")
+@Table(name = "usersx")
 public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int user_id;
+	private int id;
 	private String username;
 	private short Enabled = 1;
 	private String Password;
 	private String Roles = "ROLE_USER";
 	private String Scores;
-	private String solutions;
+	
+	//One user will have many solutions
+	@OneToMany(mappedBy = "usr")
+	private Set<Solution> sols;
+	
+	public Set<Solution> getSols() {
+		return sols;
+	}
+
+	public void setSols(Set<Solution> sols) {
+		this.sols = sols;
+	}
 
 	public int getId() {
-		return user_id;
+		return id;
 	}
 
 	public void setId(int id) {
-		this.user_id = id;
+		this.id = id;
 	}
 
 	public String getUsername() {
@@ -66,14 +82,6 @@ public class User {
 
 	public void setScores(String scores) {
 		Scores = scores;
-	}
-
-	public String getSolutions() {
-		return solutions;
-	}
-
-	public void setSolutions(String solutions) {
-		this.solutions = solutions;
 	}
 
 }
