@@ -21,6 +21,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.ccw.demo.interfaceService.IsolutionService;
 import com.ccw.demo.interfaceService.ItaskService;
 import com.ccw.demo.interfaceService.IuserService;
+import com.ccw.demo.service.CompilerService;
 import com.ccw.demo.model.Solution;
 import com.ccw.demo.model.Task;
 import com.ccw.demo.model.User;
@@ -28,6 +29,9 @@ import com.ccw.demo.model.User;
 @Controller
 @RequestMapping
 public class Regler {
+
+	@Autowired
+	private CompilerService cs;
 
 	@Autowired
 	private ItaskService tservice;
@@ -97,14 +101,22 @@ public class Regler {
 		// commpile solution here
 		// add compiler feedback
 
-		//Good
+		// Good
 //		String cmsg = "compiled successfully haha";
 //		RedirectView rv = new RedirectView("/solve/" + tsk.getId() + "?feedback", true);
 //		redir.addFlashAttribute("compiler_message", cmsg);
-		
-		//Bad
-		String cmsg = "noo there was a failure :(";
-		RedirectView rv = new RedirectView("/solve/" + tsk.getId() + "?error", true);
+
+		// Bad
+		String cmsg = "";
+		try {
+			cmsg = cs.start(tsk.getTests(), prev.getAnswer());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			cmsg = e.toString();
+		}
+
+		RedirectView rv = new RedirectView("/solve/" + tsk.getId() + "?feedback", true);
 		redir.addFlashAttribute("compiler_message", cmsg);
 
 		return rv;
