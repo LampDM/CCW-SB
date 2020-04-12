@@ -20,7 +20,7 @@ import javax.tools.SimpleJavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Component;
@@ -101,7 +101,11 @@ public class CompilerService {
 
 		// for compilation diagnostic message processing on compilation WARNING/ERROR
 		MyDiagnosticListener c = new MyDiagnosticListener();
+		
+		// note - getStandardFileManager needs JDK in the build path to work NOT JRE
 		StandardJavaFileManager fileManager = compiler.getStandardFileManager(c, Locale.ENGLISH, null);
+		
+		
 		// specify classes output folder
 		Iterable options = Arrays.asList("-d", classOutputFolder); // note - class output folder must exist
 		JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, c, options, null, files);

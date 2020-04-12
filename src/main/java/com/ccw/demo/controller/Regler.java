@@ -92,7 +92,8 @@ public class Regler {
 		Solution prev = sservice.getSolution(s.getUsr(), tsk);
 
 		prev.setAnswer(s.getAnswer());
-		prev.setScore(s.getScore());
+		String score = "insert score here";
+		prev.setScore(score);
 
 		sservice.save(prev);
 
@@ -121,12 +122,6 @@ public class Regler {
 
 		return rv;
 	}
-
-//	@PostMapping("/compile")
-//	public String save(@Valid Solution s, Model model) {
-//		//sservice.save(s);
-//		return "redirect:/";
-//	}
 
 	@GetMapping("/delete/{id}")
 	public String delete(Model model, @PathVariable int id) {
