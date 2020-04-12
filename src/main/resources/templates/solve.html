@@ -30,8 +30,15 @@
 							<input th:field="*{score}" type="text" name="scr"
 						class="form-control"> 
 						
-						 <label>compiler feedback is
-						here lol</label> <br></br> <input type="submit" value="Solve"
+					<div th:if="${param.error}">
+						<div th:text="${compiler_message}" class="alert alert-danger"></div>
+					</div>
+					
+					<div th:if="${param.feedback}">
+						<div th:text="${compiler_message}" class="alert alert-info"></div>
+					</div>
+						
+						<br></br> <input type="submit" value="Solve"
 						class="btn btn-success"> <a href="/">Back</a>
 
 				</form> 

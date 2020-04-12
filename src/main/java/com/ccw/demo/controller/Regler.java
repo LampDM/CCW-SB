@@ -3,6 +3,8 @@ package com.ccw.demo.controller;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.ccw.demo.interfaceService.IsolutionService;
 import com.ccw.demo.interfaceService.ItaskService;
@@ -62,39 +66,48 @@ public class Regler {
 
 	@GetMapping("/solve/{id}")
 	public String solveGet(@PathVariable int id, Model model, Principal principal) {
-		
+
 		Optional<Task> task = tservice.listId(id);
 
 		Task tsk = task.get();
 		User usr = uservice.getUser(principal.getName());
 
 		Solution sol = sservice.getSolution(usr, tsk);
-		
+
 		model.addAttribute("solution", sol);
 		model.addAttribute("task", task);
-		
+
 		return "solve";
 	}
 
 	@PostMapping("/solve")
-	public String solvePost(Solution s, Model model, Principal principal) {
-		System.out.println("AXX");
+	public RedirectView solvePost(Solution s, Model model, Principal principal, RedirectAttributes redir) {
+
 		Task tsk = s.getTsk();
-		System.out.println("AXX");
+
 		Solution prev = sservice.getSolution(s.getUsr(), tsk);
-		System.out.println("AXX");
-		
+
 		prev.setAnswer(s.getAnswer());
 		prev.setScore(s.getScore());
-		System.out.println("AXX");
+
 		sservice.save(prev);
-		//TODO fix nullpointer bugg
-		//TODO call the compilation REST endpoint
-		
+
+		// TODO call the compilation REST endpoint
+
 		// commpile solution here
 		// add compiler feedback
 
-		return "redirect:/solve/"+tsk.getId();
+		//Good
+//		String cmsg = "compiled successfully haha";
+//		RedirectView rv = new RedirectView("/solve/" + tsk.getId() + "?feedback", true);
+//		redir.addFlashAttribute("compiler_message", cmsg);
+		
+		//Bad
+		String cmsg = "noo there was a failure :(";
+		RedirectView rv = new RedirectView("/solve/" + tsk.getId() + "?error", true);
+		redir.addFlashAttribute("compiler_message", cmsg);
+
+		return rv;
 	}
 
 //	@PostMapping("/compile")

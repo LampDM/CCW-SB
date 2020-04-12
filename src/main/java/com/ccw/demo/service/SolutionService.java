@@ -36,11 +36,14 @@ public class SolutionService implements IsolutionService {
 		}
 		return 0;
 	}
-	
+
 	public Solution getSolution(User usr, Task tsk) {
 		List<Solution> ls = data.findByUsrAndTsk(usr, tsk);
-		if(ls.size() == 0) {
-			return new Solution();
+		if (ls.size() == 0) {
+			Solution s = new Solution();
+			s.setUsr(usr);
+			s.setTsk(tsk);
+			return s;
 		}
 		return ls.get(0);
 	}
@@ -48,13 +51,12 @@ public class SolutionService implements IsolutionService {
 	@Override
 	public void delete(int id) {
 		data.deleteById(id);
-		
+
 	}
-	
+
 	@Override
 	public void delete(Solution solution) {
 		data.delete(solution);
 	}
-	
-}
 
+}
