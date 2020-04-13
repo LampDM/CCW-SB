@@ -1,6 +1,7 @@
 package com.ccw.demo.model;
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +28,7 @@ public class Solution {
 	@ManyToOne
 	private User usr;
 	
+	@Column(columnDefinition="TEXT")
 	private String answer;
 
 	private String score;

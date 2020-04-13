@@ -97,10 +97,9 @@ public class Regler {
 
 		sservice.save(prev);
 
-		// TODO call the compilation REST endpoint
-
-		// commpile solution here
-		// add compiler feedback
+		// TODO clean up this function
+		// TODO add more tests
+		// TODO afterwards rework the lists
 
 		// Good
 //		String cmsg = "compiled successfully haha";

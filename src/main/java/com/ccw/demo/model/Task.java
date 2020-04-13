@@ -2,6 +2,7 @@ package com.ccw.demo.model;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,8 +18,14 @@ public class Task {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
+	
+	@Column(columnDefinition="TEXT")
 	private String tests;
+	
+	@Column(columnDefinition="TEXT")
 	private String description;
+	
+	@Column(columnDefinition="TEXT")
 	private String user_code;
 
 	//One task will have many solutions
