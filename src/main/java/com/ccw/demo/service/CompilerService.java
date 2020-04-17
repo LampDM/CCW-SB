@@ -215,7 +215,7 @@ public class CompilerService {
 					if (testok) {
 						testc++;
 					} else {
-						result += String.format("Test %d fail<br></br>", k + 1);
+						result += String.format("Test %d fail\n", k + 1);
 						// System.out.println(String.format("Test %d fail", k + 1));
 						// System.out.println(ex_ret);
 						// TODO function to print arrays
@@ -230,7 +230,7 @@ public class CompilerService {
 						testc++;
 
 					} else {
-						result += String.format("Test %d fail<br></br>", k + 1);
+						result += String.format("Test %d fail\n", k + 1);
 						// System.out.println(ex_ret);
 						// System.out.println(ret);
 					}
@@ -289,7 +289,7 @@ public class CompilerService {
 		System.setOut(pstream);
 
 		if (jCompile(files)) {
-			result += "Compilation success!<br></br>";
+			result += " ";
 			// Example of single testing a function
 			// Object obj1 = runIt("test1.Dummy", "funarr", new Class[]{int[].class}, new
 			// Object[]{new int[]{13, 3, 3}});
@@ -336,9 +336,10 @@ public class CompilerService {
 
 			result += testIt(ex_outputs, cname, fname, params, ex_inputs);
 		} else {
-			result += "Compilation error!<br></br>";
+			//In case of error show this
+			result += "";
 			// Show what happened
-			result += baos.toString() + "<br></br>";
+			result += baos.toString();
 		}
 
 		// Put things back

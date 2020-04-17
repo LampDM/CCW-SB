@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>lol wtf u donth ave access</title>
+    <head>
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+        <script type="text/javascript" src="/frontend/JQueryLinedText-master/jquery-linedtextarea.js"></script>
+        
 
-</head>
-<body>
-Lol u dont have access?
-<a href="/">Ok I'm sorry :()</a>
-</body>
+        <title>CodeCheckerWeb</title>
+    </head>
+    <body>
+        <div class="container mt-4" col-lg-4>
+            <div class="card border-info">
+                <div class="card-header" bg-info>
+                    <h4>Error</h4>
+                </div>
+                <div class="card-body">
+                    <p>You do not have the authority to access this page.</p>
+                    <a th:href="@{/}">Back</a>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

@@ -92,33 +92,37 @@ public class Regler {
 		Solution prev = sservice.getSolution(s.getUsr(), tsk);
 
 		prev.setAnswer(s.getAnswer());
-		String score = "insert score here";
-		prev.setScore(score);
 
-		sservice.save(prev);
-
-		// TODO clean up this function
 		// TODO add more tests
 		// TODO afterwards rework the lists
-
-		// Good
-//		String cmsg = "compiled successfully haha";
-//		RedirectView rv = new RedirectView("/solve/" + tsk.getId() + "?feedback", true);
-//		redir.addFlashAttribute("compiler_message", cmsg);
-
-		// Bad
+		// TODO handle infinite loops
+		// TODO make a result submit system
+		// TODO put the version on the server!
+		
 		String cmsg = "";
+		String url_result = "";
+		String score = "insert score here";
+
 		try {
 			cmsg = cs.start(tsk.getTests(), prev.getAnswer());
+			if(cmsg.startsWith(" ")) {
+				url_result="feedback";
+			}else {
+				url_result="error";
+			}
+			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			cmsg = e.toString();
+			cmsg = "Internal error! Please check test cases or system condition! "+e.toString();
+			url_result = "error";
 		}
 
-		RedirectView rv = new RedirectView("/solve/" + tsk.getId() + "?feedback", true);
+		
+		RedirectView rv = new RedirectView("/solve/" + tsk.getId() + "?"+url_result, true);
 		redir.addFlashAttribute("compiler_message", cmsg);
-
+		
+		prev.setScore(score);
+		sservice.save(prev);
 		return rv;
 	}
 
