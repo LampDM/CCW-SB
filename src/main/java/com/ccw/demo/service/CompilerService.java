@@ -28,9 +28,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class CompilerService {
 
-	private static final String classOutputFolder = "src";
+	private static final String classOutputFolder = ".";
 
 	private static Object runIt(String cname, String fname, Class[] params, Object[] input) {
+		
 		File file = new File(classOutputFolder);
 		try {
 			URL url = file.toURL(); // file:/classes/demo

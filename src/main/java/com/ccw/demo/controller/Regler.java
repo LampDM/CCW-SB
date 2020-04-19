@@ -1,5 +1,7 @@
 package com.ccw.demo.controller;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -113,7 +115,9 @@ public class Regler {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			cmsg = "Internal error! Please check test cases or system condition! "+e.toString();
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
+			cmsg = "Internal error! Please check test cases or system condition! "+e.toString()+" errs: "+errors.toString();
 			url_result = "error";
 		}
 
