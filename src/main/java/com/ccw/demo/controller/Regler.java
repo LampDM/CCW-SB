@@ -3,6 +3,7 @@ package com.ccw.demo.controller;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -31,6 +33,8 @@ import com.ccw.demo.model.User;
 @Controller
 @RequestMapping
 public class Regler {
+
+	int somecounter = 0;
 
 	@Autowired
 	private CompilerService cs;
@@ -100,31 +104,31 @@ public class Regler {
 		// TODO handle infinite loops
 		// TODO make a result submit system
 		// TODO put the version on the server!
-		
+
 		String cmsg = "";
 		String url_result = "";
 		String score = "insert score here";
 
 		try {
 			cmsg = cs.start(tsk.getTests(), prev.getAnswer());
-			if(cmsg.startsWith(" ")) {
-				url_result="feedback";
-			}else {
-				url_result="error";
+			if (cmsg.startsWith(" ")) {
+				url_result = "feedback";
+			} else {
+				url_result = "error";
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			StringWriter errors = new StringWriter();
 			e.printStackTrace(new PrintWriter(errors));
-			cmsg = "Internal error! Please check test cases or system condition! "+e.toString()+" errs: "+errors.toString();
+			cmsg = "Internal error! Please check test cases or system condition! " + e.toString() + " errs: "
+					+ errors.toString();
 			url_result = "error";
 		}
 
-		
-		RedirectView rv = new RedirectView("/solve/" + tsk.getId() + "?"+url_result, true);
+		RedirectView rv = new RedirectView("/solve/" + tsk.getId() + "?" + url_result, true);
 		redir.addFlashAttribute("compiler_message", cmsg);
-		
+
 		prev.setScore(score);
 		sservice.save(prev);
 		return rv;
@@ -163,6 +167,22 @@ public class Regler {
 	@GetMapping("/access-denied")
 	public String accessDenied() {
 		return "/access-denied";
+	}
+
+	@GetMapping("/get_json")
+	@ResponseBody
+	public HashMap viewJson() {
+		somecounter++;
+		System.out.println(somecounter);
+		HashMap<String, Integer> map = new HashMap<>();
+		map.put("Internal var", somecounter);
+
+		return map;
+	}
+
+	@GetMapping("/ajaxform")
+	public String ajaxForm() {
+		return "/ajaxform";
 	}
 
 }

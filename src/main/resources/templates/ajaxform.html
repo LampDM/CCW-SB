@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<script>
+
+function Timer(fn, t) {
+    var timerObj = setInterval(fn, t);
+
+    this.stop = function() {
+        if (timerObj) {
+            clearInterval(timerObj);
+            timerObj = null;
+        }
+        return this;
+    }
+
+    // start timer using current settings (if it's not already running)
+    this.start = function() {
+        if (!timerObj) {
+            this.stop();
+            timerObj = setInterval(fn, t);
+        }
+        return this;
+    }
+
+    // start with new or original interval, stop current interval
+    this.reset = function(newT = t) {
+        t = newT;
+        return this.stop().start();
+    }
+}
+
+
+	function loadDoc() {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("demo").innerHTML = this.responseText;
+			}
+		};
+		xhttp.open("GET", "/get_json", true);
+		xhttp.send();
+	}
+	
+	var timer = new Timer(function() {
+	    loadDoc()
+	}, 500);
+	
+</script>
+<body>
+
+	<div>
+		<h2 id="demo">Let AJAX change this text</h2>
+		<button type="button" onclick="timer.start();">Start https</button>
+		<button type="button" onclick="timer.stop();">Stop
+			https</button>
+	</div>
+
+</body>
+</html>
