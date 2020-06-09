@@ -33,7 +33,9 @@ import com.ccw.demo.model.User;
 @Controller
 @RequestMapping
 public class Regler {
-
+	//TODO Add the current max task scores
+	//TODO add some submitting system similar to the FRI one, tokens, intervals between submissions
+	//TODO priority list or. your task will be ran in X mins there are currently Y tasks infront of you
 	int somecounter = 0;
 
 	@Autowired

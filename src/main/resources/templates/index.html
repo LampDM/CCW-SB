@@ -8,15 +8,9 @@
 </head>
 
 <body>
-	<!--   -->
+<div th:insert="header :: myheader"></div>
 	<div class="container mt-4">
 		<div class="card border-info">
-			<div class="card-header" bg-info text-white>
-				<a class="btn btn-primary" th:href="@{/new}">New task</a> <a
-					class="btn btn-primary" th:href="@{/logout}">Logout</a> <a
-					th:href="@{/info}" style="float: right">Code Checker Web 1.02
-					BETA</a>
-			</div>
 			<div class="card-body">
 				<table class="table table-hover">
 					<thead>
@@ -48,5 +42,6 @@
 		crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="functions.js"></script>
+	<div th:insert="footer :: myfooter"></div>
 </body>
 </html>
