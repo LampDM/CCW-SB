@@ -24,13 +24,14 @@ public class Task {
 	
 	@Column(columnDefinition="TEXT")
 	private String description;
-	
-	@Column(columnDefinition="TEXT")
-	private String user_code;
 
 	//One task will have many solutions
 	@OneToMany(mappedBy = "tsk")
 	private Set<Solution> sols;
+	
+	private String score;
+	
+	private String info;
 	
 	public Set<Solution> getSols() {
 		return sols;
@@ -76,12 +77,20 @@ public class Task {
 		this.description = description;
 	}
 
-	public String getUser_code() {
-		return user_code;
+	public String getScore() {
+		return score;
 	}
 
-	public void setUser_code(String uc) {
-		this.user_code = uc;
+	public void setScore(String score) {
+		this.score = score;
 	}
 
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
+	}
+	
 }

@@ -13,7 +13,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "solutions", uniqueConstraints = {
 		@UniqueConstraint(name = "unq_valuation_4", columnNames = { "tsk_id", "usr_id" }) }
-
+//TODO maybe remove uniqueness constraint and have every solution be inside and a solution log too
 )
 
 public class Solution {
@@ -32,8 +32,9 @@ public class Solution {
 	private String answer;
 
 	private String score;
-
 	
+	private String info;
+
 	public User getUsr() {
 		return usr;
 	}
@@ -82,4 +83,12 @@ public class Solution {
 		this.score = score;
 	}
 
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
+	}
+	
 }

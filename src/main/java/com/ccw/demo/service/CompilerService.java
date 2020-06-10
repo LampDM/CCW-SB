@@ -216,7 +216,7 @@ public class CompilerService {
 					if (testok) {
 						testc++;
 					} else {
-						result += String.format("Test %d fail\n", k + 1);
+						result += String.format("Test %d fail;", k + 1);
 						// System.out.println(String.format("Test %d fail", k + 1));
 						// System.out.println(ex_ret);
 						// TODO function to print arrays
@@ -231,7 +231,7 @@ public class CompilerService {
 						testc++;
 
 					} else {
-						result += String.format("Test %d fail\n", k + 1);
+						result += String.format("Test %d fail;", k + 1);
 						// System.out.println(ex_ret);
 						// System.out.println(ret);
 					}
@@ -253,9 +253,9 @@ public class CompilerService {
 
 	}
 
-	public String start(String tests, String user_code) throws Exception {
-		String result = "";
-
+	public ArrayList<String> start(String tests, String user_code) throws Exception {
+		ArrayList<String> result = new ArrayList<String>();
+		
 		// TODO Pre-process student code
 		// TODO handle package keywords
 		// TODO what can student write
@@ -290,7 +290,7 @@ public class CompilerService {
 		System.setOut(pstream);
 
 		if (jCompile(files)) {
-			result += " ";
+			result.add("ok");
 			// Example of single testing a function
 			// Object obj1 = runIt("test1.Dummy", "funarr", new Class[]{int[].class}, new
 			// Object[]{new int[]{13, 3, 3}});
@@ -334,19 +334,21 @@ public class CompilerService {
 				// Set expected output
 				ex_outputs[k] = (String) p.get(p.size() - 1);
 			}
-
-			result += testIt(ex_outputs, cname, fname, params, ex_inputs);
+			
+			String[] testit = testIt(ex_outputs, cname, fname, params, ex_inputs).split(";");
+			for(String s : testit) {
+				result.add(s);
+			}
 		} else {
 			//In case of error show this
-			result += "";
-			// Show what happened
-			result += baos.toString();
+			//Show what happened
+			result.add(baos.toString());
 		}
 
 		// Put things back
 		System.out.flush();
 		System.setOut(old);
-
+		
 		return result;
 	}
 

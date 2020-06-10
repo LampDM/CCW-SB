@@ -9,16 +9,15 @@
 
 <body>
 <div th:insert="header :: myheader"></div>
-	<div class="container mt-4">
-		<div class="card border-info">
-			<div class="card-body">
+
 				<table class="table table-hover">
 					<thead>
 						<tr>
 							<th>ID</th>
 							<th>Name</th>
-
 							<th>Description</th>
+							<th>Score</th>
+							<th>Info</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -26,17 +25,19 @@
 						<tr th:each="task:${tasks}">
 							<td th:text="${task.id}"></td>
 							<td th:text="${task.name}"></td>
-							<td th:text="${task.description}" style="max-width: 500px;"></td>
-							<td><a th:href="@{/solve/}+${task.id}" class="btn btn-success">Solve</a>
+							<td style="max-width: 500px;" th:text="${task.description}"></td>
+							<td th:text="${task.getScore()}"></td>
+							<td th:text="${task.info}"></td>
+							<td>
+								<a th:href="@{/solve/}+${task.id}" class="btn btn-success">Solve</a>
 								<a th:href="@{/edit/}+${task.id}" class="btn btn-warning">Edit</a>
 								<a th:onclick="deletion([[${task.id}]])" class="btn btn-danger">Delete</a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-			</div>
-		</div>
-	</div>
+				
+
 	<script src="https://code.jquery.com/jquery-3.4.1.js"
 		integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
 		crossorigin="anonymous"></script>

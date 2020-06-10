@@ -3,21 +3,21 @@ package com.ccw.demo.controller;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.Principal;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -51,8 +51,14 @@ public class Regler {
 	private IsolutionService sservice;
 
 	@GetMapping("/")
-	public String list(Model model) {
+	public String list(HttpSession session, Model model, Principal principal) {
 		List<Task> tasks = tservice.list();
+		for(int k = 0;k<tasks.size();k++) {
+			User usr = uservice.getUser(principal.getName());
+			Solution sol = sservice.getSolution(usr, tasks.get(k));
+			tasks.get(k).setScore(sol.getScore());
+			tasks.get(k).setInfo(sol.getInfo());
+		}
 		model.addAttribute("tasks", tasks);
 		return "index";
 	}
@@ -107,31 +113,39 @@ public class Regler {
 		// TODO make a result submit system
 		// TODO put the version on the server!
 
-		String cmsg = "";
+		ArrayList<String> cmsg_list = new ArrayList<String>();
+		String cmsg_string = "";
 		String url_result = "";
-		String score = "insert score here";
+		String score = "Null";
 
 		try {
-			cmsg = cs.start(tsk.getTests(), prev.getAnswer());
-			if (cmsg.startsWith(" ")) {
+			//TODO make it return actual scores
+			cmsg_list = cs.start(tsk.getTests(), prev.getAnswer());
+			
+			if(cmsg_list.get(0).equals("ok")) {
+				score = cmsg_list.get(cmsg_list.size()-1);
+				cmsg_string = cmsg_list.toString();
 				url_result = "feedback";
-			} else {
+
+			}else {
+				cmsg_string = cmsg_list.toString();
 				url_result = "error";
 			}
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			StringWriter errors = new StringWriter();
 			e.printStackTrace(new PrintWriter(errors));
-			cmsg = "Internal error! Please check test cases or system condition! " + e.toString() + " errs: "
+			cmsg_string = "Internal error! Please check test cases or system condition! " + e.toString() + " errs: "
 					+ errors.toString();
 			url_result = "error";
 		}
 
 		RedirectView rv = new RedirectView("/solve/" + tsk.getId() + "?" + url_result, true);
-		redir.addFlashAttribute("compiler_message", cmsg);
+		redir.addFlashAttribute("compiler_message", cmsg_string);
 
 		prev.setScore(score);
+		prev.setInfo(cmsg_list.toString());
 		sservice.save(prev);
 		return rv;
 	}
@@ -169,22 +183,6 @@ public class Regler {
 	@GetMapping("/access-denied")
 	public String accessDenied() {
 		return "/access-denied";
-	}
-
-	@GetMapping("/get_json")
-	@ResponseBody
-	public HashMap viewJson() {
-		somecounter++;
-		System.out.println(somecounter);
-		HashMap<String, Integer> map = new HashMap<>();
-		map.put("Internal var", somecounter);
-
-		return map;
-	}
-
-	@GetMapping("/ajaxform")
-	public String ajaxForm() {
-		return "/ajaxform";
 	}
 
 }
