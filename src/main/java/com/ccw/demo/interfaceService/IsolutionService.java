@@ -18,4 +18,7 @@ public interface IsolutionService {
 	public Solution getSolution(User usr, Task tsk);
 
 	public void delete(Solution solution);
+
+	public List<Solution> getSolutions(User usr, Task tsk);
+
 }

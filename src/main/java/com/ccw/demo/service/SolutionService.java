@@ -1,5 +1,6 @@
 package com.ccw.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,12 +52,22 @@ public class SolutionService implements IsolutionService {
 	@Override
 	public void delete(int id) {
 		data.deleteById(id);
-
 	}
 
 	@Override
 	public void delete(Solution solution) {
 		data.delete(solution);
+	}
+
+	public List<Solution> getSolutions(User usr, Task tsk) {
+		List<Solution> ls = data.findByUsrAndTsk(usr, tsk);
+		if (ls.size() == 0) {
+			Solution s = new Solution();
+			s.setUsr(usr);
+			s.setTsk(tsk);
+			ls.add(s);
+		}
+		return ls;
 	}
 
 }
