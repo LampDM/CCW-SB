@@ -28,12 +28,14 @@
  					<textarea id="answerfield" th:field="*{answer}" rows="10" cols="70" type="text" name="ans"
 						class="form-control"></textarea>
 					
+					<!-- TODO use these only for confirming submission -->
+					
 					<div th:if="${param.error}">
-						<div th:text="${compiler_message}" class="alert alert-danger"></div>
+						<div th:text="${server_message}" class="alert alert-danger"></div>
 					</div>
 					
 					<div th:if="${param.feedback}">
-						<div th:text="${compiler_message}" class="alert alert-info"></div>
+						<div th:text="${server_message}" class="alert alert-info"></div>
 					</div>
 						
 						<br></br> <input type="submit" value="Solve"

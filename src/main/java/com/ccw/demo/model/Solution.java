@@ -1,6 +1,5 @@
 package com.ccw.demo.model;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,12 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "solutions")
-//, uniqueConstraints = {@UniqueConstraint(name = "unq_valuation_4", columnNames = { "tsk_id", "usr_id" }) }
-//TODO maybe remove uniqueness constraint and have every solution be inside and a solution log too
 public class Solution {
 
 	@Id

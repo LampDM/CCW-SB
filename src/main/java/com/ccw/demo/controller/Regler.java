@@ -28,6 +28,7 @@ import com.ccw.demo.interfaceService.IsolutionService;
 import com.ccw.demo.interfaceService.ItaskService;
 import com.ccw.demo.interfaceService.IuserService;
 import com.ccw.demo.service.CompilerService;
+import com.ccw.demo.service.CoordinatorService;
 import com.ccw.demo.model.Solution;
 import com.ccw.demo.model.Task;
 import com.ccw.demo.model.User;
@@ -38,11 +39,10 @@ public class Regler {
 	//TODO Add the current max task scores
 	//TODO add some submitting system similar to the FRI one, tokens, intervals between submissions
 	//TODO priority list or. your task will be ran in X mins there are currently Y tasks infront of you
-	int somecounter = 0;
 
 	@Autowired
-	private CompilerService cs;
-
+	private CoordinatorService cos;
+	
 	@Autowired
 	private ItaskService tservice;
 
@@ -51,7 +51,7 @@ public class Regler {
 
 	@Autowired
 	private IsolutionService sservice;
-
+	
 	@GetMapping("/")
 	public String list(HttpSession session, Model model, Principal principal) {
 		List<Task> tasks = tservice.list();
@@ -106,74 +106,22 @@ public class Regler {
 		model.addAttribute("task", task);
 		return "solve";
 	}
-	
-//	@GetMapping("/switch/{id}")
-//	public String swithSolution(@PathVariable int id, Model model, Principal principal) {
-//		Optional<Solution> sol = sservice.listId(id);
-//		Solution s = sol.get();
-//		Task task = s.getTsk();
-//		System.out.println("name of task");
-//		System.out.println(task.getName());
-//		User usr = uservice.getUser(principal.getName());
-//		
-//		List<Solution> sols = sservice.getSolutions(usr, task);
-//
-//		model.addAttribute("solutions", sols);
-//		model.addAttribute("solution", s);
-//		model.addAttribute("task", task);
-//		
-//		return "solve";
-//	}
 
 	@PostMapping("/solve")
 	public RedirectView solvePost(Solution s, Model model, Principal principal, RedirectAttributes redir) {
-
+		
+		cos.sendSolution(s);
+		
 		Task tsk = s.getTsk();
-
-		// TODO add more tests
-		// TODO afterwards rework the lists
-		// TODO handle infinite loops
-		// TODO give execution a max time span in configuration
-		// TODO allow only so many solvings per minute
-
-		ArrayList<String> cmsg_list = new ArrayList<String>();
-		String cmsg_string = "";
 		String url_result = "";
-		String score = "None";
-		
-		Date currentDate = new Date ();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd-MM-YYYY");
-		String c_date = dateFormat.format(currentDate);
-		
-		try {
-			cmsg_list = cs.start(tsk.getTests(), s.getAnswer());
-			
-			if(cmsg_list.get(0).equals("ok")) {
-				score = cmsg_list.get(cmsg_list.size()-1);
-				cmsg_string = cmsg_list.toString();
-				url_result = "feedback";
-
-			}else {
-				cmsg_string = cmsg_list.toString();
-				url_result = "error";
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			StringWriter errors = new StringWriter();
-			e.printStackTrace(new PrintWriter(errors));
-			cmsg_string = "Internal error! Please check test cases or system condition! " + e.toString() + " errs: "
-					+ errors.toString();
-			url_result = "error";
-		}
-
+		String srv_string = "Solution sent to evaluation successfully!";
+		url_result = "feedback";
+		//url_result = "error";
+		//TODO what feedback and error logic
+		//TODO do Ajax magic for sending and just modify shit with JS!
 		RedirectView rv = new RedirectView("/solve/" + tsk.getId() + "?" + url_result, true);
-		redir.addFlashAttribute("compiler_message", cmsg_string);
+		redir.addFlashAttribute("server_message", srv_string);
 
-		s.setScore(score);
-		s.setInfo(cmsg_list.toString());
-		s.setDate(c_date);
-		sservice.save(s);
 		return rv;
 	}
 
