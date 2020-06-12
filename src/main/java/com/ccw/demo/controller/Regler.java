@@ -95,10 +95,11 @@ public class Regler {
 
 		List<Solution> sols = sservice.getSolutions(usr, tsk);
 		
-		String[][] convertable_sols = new String[sols.size()][2];
+		String[][] convertable_sols = new String[sols.size()][3];
 		for(int k = 0;k<sols.size();k++) {
 			convertable_sols[k][0] = String.valueOf(sols.get(k).getId());
 			convertable_sols[k][1] = sols.get(k).getAnswer();
+			convertable_sols[k][2] = sols.get(k).getInfo();
 		}
 		model.addAttribute("solutions", sols);
 		model.addAttribute("somearraylist", convertable_sols);

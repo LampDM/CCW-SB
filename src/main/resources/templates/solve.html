@@ -28,8 +28,6 @@
  					<textarea id="answerfield" th:field="*{answer}" rows="10" cols="70" type="text" name="ans"
 						class="form-control"></textarea>
 					
-					<!-- TODO use these only for confirming submission -->
-					
 					<div th:if="${param.error}">
 						<div th:text="${server_message}" class="alert alert-danger"></div>
 					</div>
@@ -37,6 +35,9 @@
 					<div th:if="${param.feedback}">
 						<div th:text="${server_message}" class="alert alert-info"></div>
 					</div>
+					
+					<div id="compiler_info" class="alert alert-info"></div>
+					
 						
 						<br></br> <input type="submit" value="Solve"
 						class="btn btn-success"> <a th:href="@{/}">Back</a>
@@ -75,14 +76,38 @@
 
 <script th:inline="javascript">
 /*<![CDATA[*/
-
+	
+	document.getElementById("compiler_info").style.visibility='hidden';
+	
     var solutions = /*[[${somearraylist}]]*/ 'default';
     
     function switchTo(id) {
+    	document.getElementById("compiler_info").style.visibility='hidden';
+    		
     	var i;
     	for (i = 0; i < solutions.length; i++) {
     	  if(solutions[i][0]==id){
     		  document.getElementById("answerfield").value = solutions[i][1];
+    		  var info = solutions[i][2];
+    		  
+    		  document.getElementById("compiler_info").style.visibility='visible';
+    		  var classes = document.getElementById("compiler_info").classList;
+    		  
+    		  var k;
+    		  for (k = 0; k < classes.length; k++) {
+    			  document.getElementById("compiler_info").classList.remove(classes[k]);
+    		  }
+    		  
+    		  document.getElementById("compiler_info").classList.add('alert');
+    		  
+    		  if(info.includes("err")){
+        		  document.getElementById("compiler_info").classList.add('alert-danger');
+    		  }else{
+    			  document.getElementById("compiler_info").classList.add('alert-info');
+    		  }
+    		  
+    		  document.getElementById("compiler_info").innerHTML = info;
+  
     	  }
     	}
     	
