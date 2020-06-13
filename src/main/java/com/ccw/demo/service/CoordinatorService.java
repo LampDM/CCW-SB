@@ -41,8 +41,8 @@ public class CoordinatorService {
 	public void process_solutions() {
 		final Runnable saver = new Runnable() {
 			public void run() {
-				if (!solutions_queue.isEmpty()) {
-					System.out.println("Processing solutions in queue!");
+				System.out.println("Processing solutions in queue!");
+				while (!solutions_queue.isEmpty()) {
 					// TODO do it in a seperate thread?
 					processSolution(solutions_queue.poll());
 				}
@@ -81,7 +81,8 @@ public class CoordinatorService {
 		String c_date = dateFormat.format(currentDate);
 
 		try {
-			cmsg_list = cs.start(tsk.getTests(), s.getAnswer());
+			//add max allowed time
+			cmsg_list = cs.start(tsk.getTests(), tsk.getMaxtime(), s.getAnswer());
 
 			if (cmsg_list.get(0).equals("ok")) {
 				score = cmsg_list.get(cmsg_list.size() - 1);

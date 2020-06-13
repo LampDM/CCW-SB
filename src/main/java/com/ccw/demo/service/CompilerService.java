@@ -31,7 +31,7 @@ public class CompilerService {
 	private static final String classOutputFolder = ".";
 
 	private static Object runIt(String cname, String fname, Class[] params, Object[] input) {
-		
+
 		File file = new File(classOutputFolder);
 		try {
 			URL url = file.toURL(); // file:/classes/demo
@@ -102,11 +102,10 @@ public class CompilerService {
 
 		// for compilation diagnostic message processing on compilation WARNING/ERROR
 		MyDiagnosticListener c = new MyDiagnosticListener();
-		
+
 		// note - getStandardFileManager needs JDK in the build path to work NOT JRE
 		StandardJavaFileManager fileManager = compiler.getStandardFileManager(c, Locale.ENGLISH, null);
-		
-		
+
 		// specify classes output folder
 		Iterable options = Arrays.asList("-d", classOutputFolder); // note - class output folder must exist
 		JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, c, options, null, files);
@@ -253,9 +252,9 @@ public class CompilerService {
 
 	}
 
-	public ArrayList<String> start(String tests, String user_code) throws Exception {
+	public ArrayList<String> start(String tests, Long maxtime, String user_code) throws Exception {
 		ArrayList<String> result = new ArrayList<String>();
-		
+
 		// TODO Pre-process student code
 		// TODO handle package keywords
 		// TODO what can student write
@@ -288,8 +287,14 @@ public class CompilerService {
 		// IMPORTANT: Save the old System.out!
 		PrintStream old = System.out;
 		System.setOut(pstream);
+		
+		// TODO also make the text not dissappear on submit
+		// TODO also add a delete all button
+		
+		// TODO add a new thread for this thing that stops it when the time is too high
+		boolean comp_result = jCompile(files);
 
-		if (jCompile(files)) {
+		if (comp_result) {
 			result.add("ok");
 			// Example of single testing a function
 			// Object obj1 = runIt("test1.Dummy", "funarr", new Class[]{int[].class}, new
@@ -334,21 +339,21 @@ public class CompilerService {
 				// Set expected output
 				ex_outputs[k] = (String) p.get(p.size() - 1);
 			}
-			
+
 			String[] testit = testIt(ex_outputs, cname, fname, params, ex_inputs).split(";");
-			for(String s : testit) {
+			for (String s : testit) {
 				result.add(s);
 			}
 		} else {
-			//In case of error show this
-			//Show what happened
+			// In case of error show this
+			// Show what happened
 			result.add(baos.toString());
 		}
 
 		// Put things back
 		System.out.flush();
 		System.setOut(old);
-		
+
 		return result;
 	}
 

@@ -33,6 +33,8 @@ public class Task {
 	
 	private String info;
 	
+	private Long maxtime = 60000L;
+	
 	public Set<Solution> getSols() {
 		return sols;
 	}
@@ -91,6 +93,14 @@ public class Task {
 
 	public void setInfo(String info) {
 		this.info = info;
+	}
+
+	public Long getMaxtime() {
+		return maxtime;
+	}
+
+	public void setMaxtime(Long maxtime) {
+		this.maxtime = maxtime;
 	}
 	
 }

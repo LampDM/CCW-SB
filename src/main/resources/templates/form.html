@@ -18,13 +18,16 @@
 					<input th:field="*{id}" type="hidden" name="name"
 						class="form-control" readonly> 
 						
-						<label>Name</label> 
-						<input th:field="*{name}" type="text" name="name" class="form-control">
+					<label>Name</label> 
+					<input th:field="*{name}" type="text" name="name" class="form-control">
 						
 					<label>Tests</label>
 					
 					<textarea th:field="*{tests}" rows="10" cols="70" name="tests"
 						class="form-control"></textarea>
+						
+					<label>Maximum execution time (ms)</label> 
+					<input th:field="*{maxtime}" type="text" name="maxtime" class="form-control">
 						
 					<label>Description</label>
 					<textarea th:field="*{description}" rows="5" cols="70"
