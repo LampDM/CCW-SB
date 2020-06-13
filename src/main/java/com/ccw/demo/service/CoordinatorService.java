@@ -26,7 +26,7 @@ public class CoordinatorService {
 
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-	Queue<Solution> solutions_queue = new LinkedList<Solution>();
+	volatile Queue<Solution> solutions_queue = new LinkedList<Solution>();
 	
 	@Autowired
 	private CompilerService cs;

@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -115,7 +116,7 @@ public class CompilerService {
 
 	// Made for optimising testing speed if we want many tests
 	public static String testIt(String[] ex_outputs, String classname, String fname, Class[] params,
-			ArrayList<Object[]> ex_inputs) {
+			ArrayList<Object[]> ex_inputs, long maxtime) {
 		String result = "";
 		File file = new File(classOutputFolder);
 		int testc = 0;
@@ -129,12 +130,25 @@ public class CompilerService {
 			Method thisMethod = thisClass.getDeclaredMethod(fname, params);
 
 			Object instance = thisClass.newInstance();
-
+			
+			
 			// Main test loop
 			for (int k = 0; k < ex_inputs.size(); k++) {
 				String ex_ret = ex_outputs[k];
+				
+				
+				// Run each input in a new thread and give it 'maxtime' for execution
+				CodeExecutionThread cex = new CodeExecutionThread(thisMethod, instance, ex_inputs.get(k));
+				cex.start();
 
-				Object ret = thisMethod.invoke(instance, ex_inputs.get(k));
+				cex.join(maxtime);
+				
+				Object ret = cex.getRet();
+				
+				if (ret == null) {
+					result+= "testStopped;";
+					continue;
+				}
 
 				if (ret.getClass().isArray()) {
 					String element_type = ret.getClass().getComponentType().toString();
@@ -244,7 +258,8 @@ public class CompilerService {
 		}
 
 		// System.out.println(String.format("%d/%d", testc, ex_outputs.length));
-		result += String.format("%d/%d", testc, ex_outputs.length);
+		result += String.format("%d/%d", testc, ex_outputs.length); 
+		
 		return result;
 	}
 
@@ -287,11 +302,12 @@ public class CompilerService {
 		// IMPORTANT: Save the old System.out!
 		PrintStream old = System.out;
 		System.setOut(pstream);
-		
+
 		// TODO also make the text not dissappear on submit
 		// TODO also add a delete all button
-		
+
 		// TODO add a new thread for this thing that stops it when the time is too high
+
 		boolean comp_result = jCompile(files);
 
 		if (comp_result) {
@@ -340,7 +356,7 @@ public class CompilerService {
 				ex_outputs[k] = (String) p.get(p.size() - 1);
 			}
 
-			String[] testit = testIt(ex_outputs, cname, fname, params, ex_inputs).split(";");
+			String[] testit = testIt(ex_outputs, cname, fname, params, ex_inputs, maxtime).split(";");
 			for (String s : testit) {
 				result.add(s);
 			}
@@ -559,6 +575,39 @@ public class CompilerService {
 			}
 		}
 		return aClass;
+	}
+
+}
+
+class CodeExecutionThread extends Thread {
+
+	private volatile Object ret = null;
+	private volatile Method thisMethod;
+	private volatile Object instance;
+	private volatile Object[] inputs;
+
+	public CodeExecutionThread(Method thisMethod, Object instance, Object[] inputs) {
+		this.thisMethod = thisMethod;
+		this.instance = instance;
+		this.inputs = inputs;
+	}
+
+	@Override
+	public void run() {
+		try {
+			ret = this.thisMethod.invoke(this.instance, this.inputs);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public Object getRet() {
+		return ret;
+	}
+
+	public void setRet(Object ret) {
+		this.ret = ret;
 	}
 
 }
