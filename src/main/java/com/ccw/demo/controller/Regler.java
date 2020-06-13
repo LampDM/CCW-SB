@@ -84,7 +84,11 @@ public class Regler {
 		model.addAttribute("task", task);
 		return "form";
 	}
-
+	
+	//TODO instantly insert solution but later modify the scores in order to
+	//TODO keep the sent text on the screen, + solutions can have an approx time till
+	//TODO execution thing on them
+	
 	@GetMapping("/solve/{id}")
 	public String solveGet(@PathVariable int id, Model model, Principal principal) {
 
