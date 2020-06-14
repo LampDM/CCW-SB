@@ -39,27 +39,37 @@ public class CoordinatorService {
 	}
 
 	public void process_solutions() {
-		final Runnable saver = new Runnable() {
+		
+		 Runnable proc_sols = new Thread("process_solutions") {
 			public void run() {
-				System.out.println("Processing solutions in queue!");
+				System.out.print("Processing solutions in queue! ");
+				int k = 0;
 				while (!solutions_queue.isEmpty()) {
-					// TODO do it in a seperate thread?
 					processSolution(solutions_queue.poll());
+					k++;
 				}
+				System.out.println(k+" solutions processed");
 			}
 		};
-		final ScheduledFuture<?> saverHandle = scheduler.scheduleAtFixedRate(saver, 10, 10, SECONDS);
+		
+		final ScheduledFuture<?> proc_solsHandle = scheduler.scheduleAtFixedRate(proc_sols, 10, 10, SECONDS);
+		
 		scheduler.schedule(new Runnable() {
 			public void run() {
-				saverHandle.cancel(true);
+				proc_solsHandle.cancel(true);
 			}
 		}, 60 * 60, SECONDS);
+		
 	}
 
 	public void sendSolution(Solution s) {
 		solutions_queue.add(s);
 	}
-
+	
+	public Queue<Solution> getSolutions_queue() {
+		return solutions_queue;
+	}
+	
 	public void processSolution(Solution s) {
 		Task tsk = s.getTsk();
 

@@ -114,18 +114,20 @@ public class Regler {
 
 	@PostMapping("/solve")
 	public RedirectView solvePost(Solution s, Model model, Principal principal, RedirectAttributes redir) {
-		
+		//TODO add rejection option and token system
+		String srv_string = "Solution sent to evaluation successfully! There are currently "+cos.getSolutions_queue().size()+" solutions ahead of you in the queue.";
 		cos.sendSolution(s);
 		
 		Task tsk = s.getTsk();
 		String url_result = "";
-		String srv_string = "Solution sent to evaluation successfully!";
+		
 		url_result = "feedback";
 		//url_result = "error";
 		//TODO what feedback and error logic
 		//TODO do Ajax magic for sending and just modify shit with JS!
 		RedirectView rv = new RedirectView("/solve/" + tsk.getId() + "?" + url_result, true);
 		redir.addFlashAttribute("server_message", srv_string);
+		redir.addFlashAttribute("textfield_code", s.getAnswer());
 
 		return rv;
 	}

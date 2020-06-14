@@ -139,6 +139,7 @@ public class CompilerService {
 				
 				// Run each input in a new thread and give it 'maxtime' for execution
 				CodeExecutionThread cex = new CodeExecutionThread(thisMethod, instance, ex_inputs.get(k));
+				cex.setName("Test "+(k+1)+" thread");
 				cex.start();
 
 				cex.join(maxtime);
@@ -585,6 +586,8 @@ class CodeExecutionThread extends Thread {
 	private volatile Method thisMethod;
 	private volatile Object instance;
 	private volatile Object[] inputs;
+	
+	private boolean shouldExit = false;
 
 	public CodeExecutionThread(Method thisMethod, Object instance, Object[] inputs) {
 		this.thisMethod = thisMethod;
@@ -597,7 +600,6 @@ class CodeExecutionThread extends Thread {
 		try {
 			ret = this.thisMethod.invoke(this.instance, this.inputs);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -610,4 +612,12 @@ class CodeExecutionThread extends Thread {
 		this.ret = ret;
 	}
 
+	public boolean isShouldExit() {
+		return shouldExit;
+	}
+
+	public void setShouldExit(boolean shouldExit) {
+		this.shouldExit = shouldExit;
+	}
+	
 }

@@ -68,7 +68,6 @@
 						</tr>
 					</tbody>
 				</table>
-			
 		</div>
 	</div>
 	<div th:insert="footer :: myfooter"></div>
@@ -76,6 +75,11 @@
 
 <script th:inline="javascript">
 /*<![CDATA[*/
+	var textfield_code = /*[[${textfield_code}]]*/ 'default';
+	
+	if (textfield_code !== null){
+		document.getElementById("answerfield").value = textfield_code;
+	}
 	
 	document.getElementById("compiler_info").style.visibility='hidden';
 	
@@ -110,8 +114,9 @@
   
     	  }
     	}
-    	
     }
+    
+    
 /*]]>*/
 </script>
 </html>
