@@ -21,4 +21,6 @@ public interface IsolutionService {
 
 	public List<Solution> getSolutions(User usr, Task tsk);
 
+	public void deleteAllWithTask(int id);
+
 }

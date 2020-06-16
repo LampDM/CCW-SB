@@ -14,5 +14,7 @@ public interface ISolution extends CrudRepository<Solution, Integer> {
 	
 	List<Solution> findByUsrAndTsk(User usr, Task tsk);
 	
+	List<Solution> findByTsk(Task tsk);
+	
 }
 

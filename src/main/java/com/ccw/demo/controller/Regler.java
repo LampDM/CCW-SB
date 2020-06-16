@@ -1,20 +1,13 @@
 package com.ccw.demo.controller;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +20,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.ccw.demo.interfaceService.IsolutionService;
 import com.ccw.demo.interfaceService.ItaskService;
 import com.ccw.demo.interfaceService.IuserService;
-import com.ccw.demo.service.CompilerService;
 import com.ccw.demo.service.CoordinatorService;
 import com.ccw.demo.model.Solution;
 import com.ccw.demo.model.Task;
@@ -36,9 +28,6 @@ import com.ccw.demo.model.User;
 @Controller
 @RequestMapping
 public class Regler {
-	//TODO Add the current max task scores
-	//TODO add some submitting system similar to the FRI one, tokens, intervals between submissions
-	//TODO priority list or. your task will be ran in X mins there are currently Y tasks infront of you
 
 	@Autowired
 	private CoordinatorService cos;
@@ -85,10 +74,6 @@ public class Regler {
 		return "form";
 	}
 	
-	//TODO instantly insert solution but later modify the scores in order to
-	//TODO keep the sent text on the screen, + solutions can have an approx time till
-	//TODO execution thing on them
-	
 	@GetMapping("/solve/{id}")
 	public String solveGet(@PathVariable int id, Model model, Principal principal) {
 
@@ -134,6 +119,7 @@ public class Regler {
 
 	@GetMapping("/delete/{id}")
 	public String deleteTask(Model model, @PathVariable int id) {
+		sservice.deleteAllWithTask(id);
 		tservice.delete(id);
 		return "redirect:/";
 	}

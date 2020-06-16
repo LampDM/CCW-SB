@@ -27,6 +27,7 @@ public class Solution {
 
 	private String score;
 	
+	@Column(columnDefinition="TEXT")
 	private String info;
 	
 	private String date;

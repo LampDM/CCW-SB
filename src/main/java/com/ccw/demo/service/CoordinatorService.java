@@ -91,7 +91,6 @@ public class CoordinatorService {
 		String c_date = dateFormat.format(currentDate);
 
 		try {
-			//add max allowed time
 			cmsg_list = cs.start(tsk.getTests(), tsk.getMaxtime(), s.getAnswer());
 
 			if (cmsg_list.get(0).equals("ok")) {

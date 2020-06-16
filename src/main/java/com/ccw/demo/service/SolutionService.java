@@ -1,6 +1,5 @@
 package com.ccw.demo.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.ccw.demo.interfaceService.IsolutionService;
 import com.ccw.demo.interfaces.ISolution;
+import com.ccw.demo.interfaces.ITask;
 import com.ccw.demo.model.Solution;
 import com.ccw.demo.model.Task;
 import com.ccw.demo.model.User;
@@ -18,6 +18,9 @@ public class SolutionService implements IsolutionService {
 
 	@Autowired
 	private ISolution data;
+
+	@Autowired
+	private ITask tdata;
 
 	@Override
 	public List<Solution> list() {
@@ -68,6 +71,16 @@ public class SolutionService implements IsolutionService {
 			ls.add(s);
 		}
 		return ls;
+	}
+
+	@Override
+	public void deleteAllWithTask(int id) {
+		Task tsk = tdata.findById(id).get();
+		List<Solution> ls = data.findByTsk(tsk);
+		for (int k = 0; k < ls.size(); k++) {
+			data.delete(ls.get(k));
+		}
+
 	}
 
 }

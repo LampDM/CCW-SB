@@ -13,7 +13,6 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>ID</th>
 							<th>Name</th>
 							<th>Description</th>
 							<th>Score</th>
@@ -23,7 +22,6 @@
 					</thead>
 					<tbody>
 						<tr th:each="task:${tasks}">
-							<td th:text="${task.id}"></td>
 							<td th:text="${task.name}"></td>
 							<td style="max-width: 500px;" th:text="${task.description}"></td>
 							<td th:text="${task.getScore()}"></td>

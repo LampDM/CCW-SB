@@ -240,7 +240,6 @@ public class CompilerService {
 						result += String.format("Test %d fail;", k + 1);
 						// System.out.println(String.format("Test %d fail", k + 1));
 						// System.out.println(ex_ret);
-						// TODO function to print arrays
 					}
 
 				} else {
@@ -311,14 +310,7 @@ public class CompilerService {
 		PrintStream old = System.out;
 		System.setOut(pstream);
 
-		// TODO also make the text not dissappear on submit
-		// TODO also add a delete all button
-
-		// TODO add a new thread for this thing that stops it when the time is too high
-
-		boolean comp_result = jCompile(files);
-
-		if (comp_result) {
+		if (jCompile(files)) {
 			result.add("ok");
 			// Example of single testing a function
 			// Object obj1 = runIt("test1.Dummy", "funarr", new Class[]{int[].class}, new
