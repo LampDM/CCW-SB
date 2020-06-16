@@ -48,7 +48,6 @@
 							<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>ID</th>
 							<th>Score</th>
 							<th>Info</th>
 							<th>Date</th>
@@ -57,12 +56,11 @@
 					</thead>
 					<tbody>
 						<tr th:each="solution:${solutions}">
-							<td th:text="${solution.id}"></td>
 							<td th:text="${solution.score}"></td>
 							<td style="max-width: 500px" th:text="${solution.info}"></td>
 							<td th:text="${solution.date}"></td>
 							<td>
-								<a th:attr="onclick=|switchTo('${solution.id}')|"  class="btn btn-success">Switch to</a>
+								<a th:attr="onclick=|switchTo('${solution.id}')|"  class="btn btn-success">Show</a>
 								<a th:href="@{/deleteSolution/}+${solution.id}" class="btn btn-danger">Delete</a>
 							</td>
 						</tr>

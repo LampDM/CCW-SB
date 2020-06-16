@@ -24,8 +24,6 @@ public class CodeExecutionThread extends Thread {
 			ret = this.thisMethod.invoke(this.instance, this.inputs);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
-		}finally {
-			Thread.currentThread().interrupt();
 		}
 	}
 
@@ -43,6 +41,30 @@ public class CodeExecutionThread extends Thread {
 
 	public void setShouldExit(boolean shouldExit) {
 		this.shouldExit = shouldExit;
+	}
+
+	public Method getThisMethod() {
+		return thisMethod;
+	}
+
+	public void setThisMethod(Method thisMethod) {
+		this.thisMethod = thisMethod;
+	}
+
+	public Object getInstance() {
+		return instance;
+	}
+
+	public void setInstance(Object instance) {
+		this.instance = instance;
+	}
+
+	public Object[] getInputs() {
+		return inputs;
+	}
+
+	public void setInputs(Object[] inputs) {
+		this.inputs = inputs;
 	}
 	
 }

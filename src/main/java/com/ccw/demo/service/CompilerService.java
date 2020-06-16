@@ -144,15 +144,17 @@ public class CompilerService {
 				cex.setName("Test "+(k+1)+" thread");
 				cex.start();
 
-				//TODO terminate thread safely somehow
-//				Thread.sleep(maxtime);
-//				cex.interrupt();
 				cex.join(maxtime);
+				
+				if (cex.isAlive()) {
+					//Throws an exception but thread terminates, should be changed in the future
+				    cex.stop();
+				}
 				
 				Object ret = cex.getRet();
 				
 				if (ret == null) {
-					result+= "testStopped;";
+					result+= "tookTooLong;";
 					continue;
 				}
 
