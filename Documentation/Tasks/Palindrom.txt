@@ -1,0 +1,33 @@
+Palindrome check
+
+{
+    "function": [
+        "Palindrome",
+        "Boolean",
+        ["String"]
+    ],
+    "tests": [
+        [["a"], "true"],
+        [["aaa"], "true"],
+        [[""], "true"],
+        [["ab"], "false"],
+        [["absxsafsgagasgsd"], "false"],
+        [["abaaaba"], "true"]
+    ]
+}
+
+Create a function Palindrome (String str) which returns True if the given string is a palindrome and false otherwise.
+
+public boolean Palindrome(String text) {
+    String clean = text.replaceAll("\\s+", "").toLowerCase();
+    int length = clean.length();
+    int forward = 0;
+    int backward = length - 1;
+    while (backward > forward) {
+        char forwardChar = clean.charAt(forward++);
+        char backwardChar = clean.charAt(backward--);
+        if (forwardChar != backwardChar)
+            return false;
+    }
+    return true;
+}

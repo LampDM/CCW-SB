@@ -1,0 +1,22 @@
+List sorting
+
+{
+    "function": [
+        "Sorter",
+        "int[]",
+        ["int[]"]
+    ],
+    "tests": [
+        [["5"], "5"],
+        [["3,2,1"], "1,2,3"],
+        [["5,6,5,4"], "4,5,5,6"]
+    ]
+}
+
+Make a function called int[] Sorter(int[] lis) which gets an array of numbers and returns the sorted version.
+
+public int[] Sorter(int[] lis){
+
+Arrays.sort(lis);
+return lis;
+}

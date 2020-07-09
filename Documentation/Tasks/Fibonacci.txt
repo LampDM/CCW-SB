@@ -1,0 +1,24 @@
+Nth Fibonacci number
+
+{
+    "function": [
+        "Fib",
+        "int",
+        ["int"]
+    ],
+    "tests": [
+        [["0"], "0"],
+        [["1"], "1"],
+        [["2"], "1"],
+        [["42"], "267914296"]
+    ]
+}
+
+Create a function called Fib( int n ) that takes as it's argument an integer n and returns the nth Fibonacci number.
+
+public int Fib(int n){
+    if(n<=1){
+        return n;
+}
+return Fib(n-1) + Fib(n-2);
+}
